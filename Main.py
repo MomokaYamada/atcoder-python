@@ -16,3 +16,11 @@ def has_duplicates2(seq):  # リストに重複した要素があるか判定（
         if not(item in seen):
             seen.append(item)
     return len(seq) != len(seen)
+
+
+def divisor(n):
+    divisor = []
+    for i in range(1, n+1):
+        if n % i == 0:
+            divisor.append(i)
+    return divisor
