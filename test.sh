@@ -1,15 +1,9 @@
-# DOCKER="sudo docker run -i --rm -v "$PWD":/usr/src/myapp -w /usr/src/myapp java:openjdk-8-alpine"
-# BUILD="$DOCKER javac Main.java"
-RUN="python3 -B ./Main.py"
+PYPY="pypy:3-2.4.0" # 旧ジャッジ
+# PYPY="pypy:3-7.3.0" # 新ジャッジ
 
-# echo "Building..."
-# echo $BUILD
-# $BUILD
+docker pull "$PYPY"
 
-if [ ! $? = 0 ]; then
-    echo "Build failed."
-    exit
-fi
+RUN="docker run -i --rm -v $PWD:/usr/src/myapp -w /usr/src/myapp $PYPY pypy3 Main.py"
 
 echo "Removing old output..."
 mkdir -p output
@@ -28,5 +22,3 @@ done
 for file in `ls input`; do
     bat output/$file
 done
-
-rm -f main.py
