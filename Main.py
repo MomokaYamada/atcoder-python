@@ -1,3 +1,4 @@
+from copy import deepcopy
 import math
 import string
 import collections
@@ -6,6 +7,9 @@ from collections import deque
 from decimal import Decimal
 import sys
 import fractions
+from operator import itemgetter
+import itertools
+import copy
 
 
 def readints():
@@ -32,36 +36,31 @@ def divisor(n):
     return divisor
 
 
+def gcd(a, b):
+    while(b != 0):
+        a, b = b, a % b
+    return a
+
+
 # coordinates
 dx = [-1, -1, -1, 0, 0, 1, 1, 1]
 dy = [-1, 0, 1, -1, 1, -1, 0, 1]
-n = int(input())
-g = [None]*n
-for i in range(n):
-    g[i] = readints()
-# print(g)
-G = [None]*n
-for i in range(n):
-    G[i] = []
-# print(G)
-for i in range(n):
-    if len(g[i]) >= 3:
-        for j in range(2, len(g[i])):
-            # print(g[i][j])
-            G[i].append(g[i][j])
-#print('G', G)
-dist = [-1]*n
-dist[0] = 0
-d = deque()
-d.append(0)
-# print(d)
-while(len(d) != 0):
-    v = d.popleft()
-    if G[v] != []:
-        for nv in G[v]:
-            if dist[nv-1] != -1:
-                continue
-            dist[nv-1] = dist[v]+1
-            d.append(nv-1)
-for i in range(n):
-    print(i+1, dist[i])
+
+
+def binary_search(list, item):
+    low = 0  # listの一番最初
+    high = len(list)-1  # listの一番最後
+    while(low <= high):  # 一つの要素に絞り込まれるまでの間は...
+        mid = (low+high)//2
+        guess = list[mid]
+        if guess == item:
+            return mid
+        if guess > item:
+            high = mid-1
+        else:
+            low = mid+1
+    return None  # アイテムが存在しない
+
+
+my_list = [1, 3, 5, 7, 9]
+print(binary_search(my_list, 3))
